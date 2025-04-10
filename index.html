@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Park Tower Dubai</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+            </div>
+            <div class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </div>
+            <div class="breadcrumb">
+                <a href="/world.html" class="breadcrumb-item">World</a>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-item">Dubai</span>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-item current">Park Tower</span>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="navbar-right">
+            <div class="nav-item" id="changeViewBtn">
+                <i class="fas fa-desktop"></i>
+                <span>Change View</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-sliders-h"></i>
+                <span>Filters</span>
+            </div>
+            <div class="nav-item">
+                <i class="far fa-star"></i>
+                <span>Favourites</span>
+            </div>
+            <div class="nav-item" id="downloadBrochureBtn">
+                <i class="fas fa-download"></i>
+                <span>Brochure</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-eye"></i>
+                <span>Views</span>
+            </div>
+            <div class="nav-item">
+                <i class="fab fa-whatsapp"></i>
+                <span>Share</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-item" id="mobileChangeViewBtn">
+            <i class="fas fa-desktop"></i>
+            <span>Change View</span>
+        </div>
+        <div class="mobile-menu-item">
+            <i class="far fa-star"></i>
+            <span>Filters</span>
+        </div>
+        <div class="mobile-menu-item">
+            <i class="far fa-star"></i>
+            <span>Favourites</span>
+        </div>
+        <div class="mobile-menu-item">
+            <i class="fas fa-download"></i>
+            <span>Brochure</span>
+        </div>
+        <div class="mobile-menu-item">
+            <i class="fas fa-eye"></i>
+            <span>Views</span>
+        </div>
+        <div class="mobile-menu-item">
+            <i class="fab fa-whatsapp"></i>
+            <span>Share</span>
+        </div>
+    </div>
+
+    <!-- Video Container (with multiple videos) -->
+    <div class="video-container">
+        <!-- First video view (default visible) -->
+        <div class="video-view active" id="view1">
+            <video autoplay muted loop id="background-video-1" class="background-video">
+                <source src="assets/dubai-background.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <!-- Second video view (hidden by default) -->
+        <div class="video-view" id="view2">
+            <video autoplay muted loop id="background-video-2" class="background-video">
+                <source src="assets/dubai-alternative-view.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <!-- Navigation Controls -->
+        <div class="navigation-controls">
+            
+            <div class="nav-control">
+                <i class="fas fa-sync-alt"></i>
+            </div>
+            <div class="nav-control" id="fullscreenBtn">
+                <i class="fas fa-expand"></i>
+            </div>            
+        </div>
+        
+        <!-- Watermark -->
+        <div class="watermark">
+            <span>Design and Developed by</span>
+            <span>Intrino Technologies</span>
+        </div>
+        
+        <!-- Hotspot -->
+        <div class="hotspot">
+            <div class="hotspot-circle">
+                <span>360°</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Panel -->
+    <div class="filter-overlay" id="filterOverlay"></div>
+    <div class="filter-panel" id="filterPanel">
+        <div class="filter-header">
+            <h3>Filter Properties</h3>
+            <div class="filter-close" id="filterClose">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        
+        <div class="filters">
+            <!-- Unit Type -->
+            <label>Unit Type</label>
+            <select>
+                <option>Studio</option>
+                <option>1 BHK</option>
+                <option>2 BHK</option>
+                <option>3 BHK</option>
+            </select>
+
+            <!-- Furnishing -->
+            <label>Furnishing</label>
+            <select>
+                <option>Furnished</option>
+                <option>Unfurnished</option>
+            </select>
+
+            <!-- Availability -->
+            <label>Availability</label>
+            <select>
+                <option>Available</option>
+                <option>Unavailable</option>
+            </select>
+
+            <!-- View Type -->
+            <label>Property Condition</label>
+            <select>
+                <option>New</option>
+                <option>Under Construction</option>
+                <option>Ready to Move</option>
+            </select>
+            
+            <button class="apply-filters">Apply Filters</button>
+        </div>
+    </div>
+  
+    <!-- Brochure Modal -->
+    <div id="brochureModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            
+            <!-- Step 1: Brochure Info Display -->
+            <div class="modal-step" id="step1">
+                <h2>Download Park Tower Brochure</h2>
+                
+                <div class="brochure-preview">
+                    <div class="preview-image">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="preview-info">
+                        <h3>Park Tower Dubai - Complete Guide</h3>
+                        <p>This comprehensive brochure includes floor plans, amenities, and all the information you need about Park Tower Dubai.</p>
+                        <button id="requestButton" class="request-button">Request Download</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2: User Information Form -->
+            <div class="modal-step" id="step2" style="display: none;">
+                <h2>Complete Your Information</h2>
+                <p>Please provide your details to receive the brochure</p>
+                
+                <form id="brochureForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required>
+                        <span class="error-message" id="nameError"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number *</label>
+                        <input type="tel" id="mobile" name="mobile" required>
+                        <span class="error-message" id="mobileError"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" id="backToStep1">Back</button>
+                        <button type="submit" id="submitForm">Download Brochure</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Step 3: Download Success -->
+            <div class="modal-step" id="step3" style="display: none;">
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Thank You!</h2>
+                    <p>Your brochure is ready for download</p>
+                    <a id="downloadLink" href="./brochures/park-tower-brochure.pdf" class="download-button" download="park-tower-brochure.pdf">
+                        <i class="fas fa-download"></i> Download Now
+                    </a>
+                    <p class="small-text">We've also sent a copy to your email</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

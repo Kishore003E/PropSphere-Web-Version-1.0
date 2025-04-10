@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Park Tower Dubai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-image: url('/assets/dubai-map.png');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Marker/Button Styles */
+        .map-marker {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background-color: rgba(0, 81, 255, 0.8);
+            border-radius: 50%;
+            border: 3px solid white;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            z-index: 10;
+        }
+        
+        .map-marker:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+            background-color: rgb(86, 61, 211);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        .map-marker .pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: rgba(63, 49, 183, 0.4);
+            animation: pulse 1.5s infinite;
+        }
+        
+        .map-marker .tooltip {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .map-marker:hover .tooltip {
+            opacity: 1;
+        }
+        
+        /* Animation for pulse effect */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.8);
+                opacity: 0;
+            }
+        }
+        
+        #marker-dubai {
+            top: 43%;
+            left: 45%;
+        }
+        
+        /* Additional landmark markers if needed */
+        #marker-palm {
+            top: 74%;
+            left: 25%;
+        }
+        
+        #marker-marina {
+            top: 82%;
+            left: 32%;
+        }
+        
+        #marker-burj {
+            top: 60%;
+            left: 58%;
+        }
+    </style>
+</head>
+<body>
+    <div class="map-container">
+        <a href="index.html" class="map-marker" id="marker-dubai">
+            <div class="pulse"></div>
+            <div class="tooltip">Vento Tower</div>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const markers = document.querySelectorAll('.map-marker');
+            
+            markers.forEach(marker => {
+                marker.addEventListener('click', function(e) {
+                    console.log('Navigating to ' + marker.querySelector('.tooltip').textContent);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
