@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Park Tower Dubai</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
         body, html {
             width: 100%;
@@ -23,6 +26,14 @@
             background-image: url('/assets/dubai-map.png');
             background-size: cover;
             background-position: center;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
         
         /* Marker/Button Styles */
@@ -122,6 +133,92 @@
             <div class="tooltip">Vento Tower</div>
         </a>
     </div>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+            </div>
+            <div class="back-btn"></div>
+            <div class="breadcrumb">
+                <a href="world.html" class="breadcrumb-item">World</a>
+                <span class="breadcrumb-separator">›</span>
+                <a href="dubai.html" class="breadcrumb-item current">Dubai</a>
+            </div>
+        </div>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="navbar-right">
+            <div class="justify-content-center"></div>
+                <div class="nav-item">
+                    <i class="fas fa-map-marker-alt me-1"></i>
+                    <span>Landmarks</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-road me-1"></i>
+                    <span>Main Roads</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-store me-1"></i>
+                    <span>Retail</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-graduation-cap me-1"></i>
+                    <span>Education</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-hospital me-1"></i>
+                    <span>Health</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-circle me-1"></i>
+                    <span>Radius</span>
+                </div>
+            </div>
+            <div class="nav-item">
+                <i class="fab fa-whatsapp"></i>
+                <span>Share</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-menu">
+        <div class="mobile-menu-item">
+            <div class="nav-item">
+                <i class="fas fa-map-marker-alt me-1"></i>
+                <span>Landmarks</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-road me-1"></i>
+                <span>Main Roads</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-store me-1"></i>
+                <span>Retail</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-graduation-cap me-1"></i>
+                <span>Education</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-hospital me-1"></i>
+                <span>Health</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-circle me-1"></i>
+                <span>Radius</span>
+            </div>
+        </div>
+        <div class="mobile-menu-item">
+            <i class="fab fa-whatsapp"></i>
+            <span>Share</span>
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+    <div id="dubai-label">Dubai</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

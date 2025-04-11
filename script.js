@@ -376,10 +376,8 @@ document.addEventListener('DOMContentLoaded', function() {
         showStep(3);
     }
     
-    // ============= NEW SVG OVERLAY FUNCTIONALITY =============
+    // ============= SVG OVERLAY FUNCTIONALITY =============
     
-    // Add to your existing script.js - replace the existing SVG overlay section
-
     // Create SVG overlay container if it doesn't exist
     if (!document.getElementById('floor-plan-overlay')) {
         const videoContainer = document.querySelector('.video-container');
@@ -444,45 +442,80 @@ document.addEventListener('DOMContentLoaded', function() {
             color: 'rgba(255,165,0,0.7)', // Orange
             size: '400-500 sq. ft.',
             price: 'AED 650,000 - 800,000',
-            floors: [1, 2, 3, 4, 5, 6] // Floors that have studio units
+            floors: [1, 2, 3, 4, 5, 6], // Floors that have studio units
+            availability: {
+                'Available': [1, 2, 3, 4],
+                'Unavailable': [5, 6]
+            }
         },
         '1 BHK': {
             color: 'rgba(255,0,0,0.7)', // Red
             size: '650-850 sq. ft.',
             price: 'AED 950,000 - 1,250,000',
-            floors: [7, 8, 9, 10, 11] // Floors that have 1 BHK units
+            floors: [7, 8, 9, 10, 11], // Floors that have 1 BHK units
+            availability: {
+                'Available': [7, 8, 9],
+                'Unavailable': [10, 11]
+            }
         },
         '2 BHK': {
             color: 'rgba(0,0,255,0.7)', // Blue
             size: '950-1200 sq. ft.',
             price: 'AED 1,350,000 - 1,750,000',
-            floors: [12, 13, 14] // Floors that have 2 BHK units
+            floors: [12, 13, 14], // Floors that have 2 BHK units
+            availability: {
+                'Available': [12],
+                'Unavailable': [13, 14]
+            }
         },
         '3 BHK': {
             color: 'rgba(0,128,0,0.7)', // Green
             size: '1200-1600 sq. ft.',
             price: 'AED 1,850,000 - 2,500,000',
-            floors: [15, 16, 17, 18, 19, 20] // Floors that have 3 BHK units
+            floors: [15, 16, 17, 18, 19, 20], // Floors that have 3 BHK units
+            availability: {
+                'Available': [15, 16, 17],
+                'Unavailable': [18, 19, 20]
+            }
         }
     };
 
-    // Apply filters button click handler for unit selection
+    // Cache filter selection elements
+    const unitTypeSelect = document.querySelector('.filters select:nth-of-type(1)');
+    const furnishingSelect = document.querySelector('.filters select:nth-of-type(2)');
+    const availabilitySelect = document.querySelector('.filters select:nth-of-type(3)');
+    const conditionSelect = document.querySelector('.filters select:nth-of-type(4)');
+    
+    // Add change event listeners to filter selects for dynamic updating
+    if (unitTypeSelect) {
+        unitTypeSelect.addEventListener('change', applyDynamicFilters);
+    }
+    
+    if (availabilitySelect) {
+        availabilitySelect.addEventListener('change', applyDynamicFilters);
+    }
+    
+    // Keep the apply filters button for users who prefer to click it
     const applyFiltersBtn = document.querySelector('.apply-filters');
-    const unitTypeSelect = document.querySelector('.filters select:first-of-type');
-
-    if (applyFiltersBtn && unitTypeSelect) {
+    if (applyFiltersBtn) {
         applyFiltersBtn.addEventListener('click', function() {
-            // Get selected unit type
-            const selectedUnitType = unitTypeSelect.value;
-            highlightFloors(selectedUnitType);
-            
-            // Close the filter panel
+            applyDynamicFilters();
             closeFilterPanel();
         });
     }
 
-    // Function to highlight floors based on unit type
-    function highlightFloors(unitType) {
+    // Function to apply filters dynamically based on current selections
+    function applyDynamicFilters() {
+        // Get selected values
+        const selectedUnitType = unitTypeSelect ? unitTypeSelect.value : 'Studio';
+        const selectedAvailability = availabilitySelect ? availabilitySelect.value : 'Available';
+        
+        // Apply filters to highlight appropriate floors
+        highlightFloors(selectedUnitType, selectedAvailability);
+    }
+
+    // Function to highlight floors based on unit type and availability
+    function highlightFloors(unitType, availability = 'Available') {
         const overlayContainer = document.getElementById('floor-plan-overlay');
         const floorOverlays = document.getElementById('floor-overlays');
         const floorNumbers = document.getElementById('floor-numbers');
@@ -491,6 +524,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const floorInfo = unitInfo.querySelector('.floor-info');
         const unitSize = unitInfo.querySelector('.unit-size');
         const unitPrice = unitInfo.querySelector('.unit-price');
+        const availabilityText = unitInfo.querySelector('.availability');
         
         // Clear existing overlays
         floorOverlays.innerHTML = '';
@@ -500,12 +534,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const unitDef = unitTypes[unitType];
         
         if (unitDef) {
+            // Get floors based on availability
+            let floorsToShow = [];
+            
+            if (availability === 'Available' || availability === 'Unavailable') {
+                floorsToShow = unitDef.availability[availability] || [];
+            } else {
+                // If 'All' or any other value, show all floors
+                floorsToShow = unitDef.floors;
+            }
+            
             // Add floor numbers and highlights
-            unitDef.floors.forEach(floorNum => {
+            floorsToShow.forEach(floorNum => {
                 // Calculate floor position from bottom of building
                 const floorY = buildingBase - (floorNum * floorHeight);
                 
-                // Create floor highlight
+                // Create floor highlight with different opacity based on availability
                 const floorRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
                 floorRect.setAttribute('x', buildingLeft);
                 floorRect.setAttribute('y', floorY);
@@ -516,15 +560,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 floorRect.setAttribute('stroke-width', '1');
                 floorRect.setAttribute('data-floor', floorNum);
                 floorRect.setAttribute('data-unit-type', unitType);
+                floorRect.setAttribute('data-availability', availability);
                 floorRect.classList.add('floor-highlight');
                 
-                // Add pulse animation
-                floorRect.innerHTML = `
-                    <animate attributeName="opacity" 
-                            values="0.8;1;0.8" 
-                            dur="2s" 
-                            repeatCount="indefinite" />
-                `;
+                // Add pulse animation for available units only
+                if (availability === 'Available') {
+                    floorRect.innerHTML = `
+                        <animate attributeName="opacity" 
+                                values="0.8;1;0.8" 
+                                dur="2s" 
+                                repeatCount="indefinite" />
+                    `;
+                } else {
+                    // Make unavailable units more transparent
+                    floorRect.setAttribute('opacity', '0.5');
+                }
                 
                 // Add floor to overlays
                 floorOverlays.appendChild(floorRect);
@@ -550,16 +600,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Update info box with floor-specific details
                     unitInfo.querySelector('.floor-info').textContent = `Floor: ${floorNum}`;
-                    unitInfo.querySelector('.availability').textContent = `Status: Available`;
+                    unitInfo.querySelector('.availability').textContent = `Status: ${availability}`;
                     unitInfo.classList.add('expanded');
                 });
             });
             
             // Update unit info
             unitTypeText.textContent = `Type: ${unitType}`;
-            floorInfo.textContent = `Floors: ${unitDef.floors.join(', ')}`;
+            floorInfo.textContent = `Floors: ${floorsToShow.join(', ')}`;
             unitSize.textContent = `Size: ${unitDef.size}`;
             unitPrice.textContent = `Price: ${unitDef.price}`;
+            availabilityText.textContent = `Status: ${availability}`;
             
             // Show overlay
             overlayContainer.classList.add('active');
@@ -575,11 +626,24 @@ document.addEventListener('DOMContentLoaded', function() {
         floorOverlays.innerHTML = '';
         floorNumbers.innerHTML = '';
         
+        // Get availability filter value
+        const selectedAvailability = availabilitySelect ? availabilitySelect.value : 'Available';
+        
         // Highlight each unit type with its own color
         Object.keys(unitTypes).forEach(unitType => {
             const unitDef = unitTypes[unitType];
             
-            unitDef.floors.forEach(floorNum => {
+            // Filter floors based on availability
+            let floorsToShow = [];
+            
+            if (selectedAvailability === 'Available' || selectedAvailability === 'Unavailable') {
+                floorsToShow = unitDef.availability[selectedAvailability] || [];
+            } else {
+                // If 'All' or any other value, show all floors
+                floorsToShow = unitDef.floors;
+            }
+            
+            floorsToShow.forEach(floorNum => {
                 // Calculate floor position
                 const floorY = buildingBase - (floorNum * floorHeight);
                 
@@ -594,7 +658,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 floorRect.setAttribute('stroke-width', '1');
                 floorRect.setAttribute('data-floor', floorNum);
                 floorRect.setAttribute('data-unit-type', unitType);
+                floorRect.setAttribute('data-availability', selectedAvailability);
                 floorRect.classList.add('floor-highlight');
+                
+                // Add pulse animation for available units only
+                if (selectedAvailability === 'Available') {
+                    floorRect.innerHTML = `
+                        <animate attributeName="opacity" 
+                                values="0.8;1;0.8" 
+                                dur="2s" 
+                                repeatCount="indefinite" />
+                    `;
+                } else {
+                    // Make unavailable units more transparent
+                    floorRect.setAttribute('opacity', '0.5');
+                }
                 
                 // Add floor to overlays
                 floorOverlays.appendChild(floorRect);
@@ -621,7 +699,7 @@ document.addEventListener('DOMContentLoaded', function() {
         unitInfo.querySelector('.floor-info').textContent = 'Select a floor for details';
         unitInfo.querySelector('.unit-size').textContent = '';
         unitInfo.querySelector('.unit-price').textContent = '';
-        unitInfo.querySelector('.availability').textContent = '';
+        unitInfo.querySelector('.availability').textContent = `Status: ${selectedAvailability}`;
     }
 
     // Add a "Show All Units" button to the filter panel
@@ -650,6 +728,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.classList.contains('floor-highlight')) {
             const floorNum = e.target.getAttribute('data-floor');
             const unitType = e.target.getAttribute('data-unit-type');
+            const availability = e.target.getAttribute('data-availability');
             
             // Update info with selected floor details
             const unitInfo = document.querySelector('.unit-info-box');
@@ -657,7 +736,7 @@ document.addEventListener('DOMContentLoaded', function() {
             unitInfo.querySelector('.floor-info').textContent = `Floor: ${floorNum}`;
             unitInfo.querySelector('.unit-size').textContent = `Size: ${unitTypes[unitType].size}`;
             unitInfo.querySelector('.unit-price').textContent = `Price: ${unitTypes[unitType].price}`;
-            unitInfo.querySelector('.availability').textContent = 'Status: Available';
+            unitInfo.querySelector('.availability').textContent = `Status: ${availability}`;
             
             // Highlight selected floor
             document.querySelectorAll('.floor-highlight').forEach(f => {
@@ -668,4 +747,12 @@ document.addEventListener('DOMContentLoaded', function() {
             unitInfo.classList.add('expanded');
         }
     });
+    
+    // // Initialize with default values
+    // // Wait a bit to make sure all elements are loaded
+    // setTimeout(() => {
+    //     if (unitTypeSelect && availabilitySelect) {
+    //         applyDynamicFilters();
+    //     }
+    // }, 500);
 });
