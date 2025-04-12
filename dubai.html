@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <title>Park Tower Dubai</title>
     <style>
@@ -104,34 +103,286 @@
             }
         }
         
+        /* Category-specific marker colors */
+        .landmark-marker {
+            background-color: rgba(255, 0, 0, 0.8);
+        }
+        
+        .road-marker {
+            background-color: rgba(0, 128, 0, 0.8);
+        }
+        
+        .retail-marker {
+            background-color: rgba(255, 165, 0, 0.8);
+        }
+        
+        .education-marker {
+            background-color: rgba(128, 0, 128, 0.8);
+        }
+        
+        .health-marker {
+            background-color: rgba(0, 206, 209, 0.8);
+        }
+        
+        .radius-marker {
+            background-color: rgba(255, 192, 203, 0.8);
+        }
+        
+        /* Default project marker */
         #marker-dubai {
             top: 43%;
             left: 45%;
         }
         
-        /* Additional landmark markers if needed */
-        #marker-palm {
-            top: 74%;
-            left: 25%;
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: calc(100% - 40px);
+            height: 64px;
+            background-color: rgba(33, 33, 33, 0.9);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
         }
         
-        #marker-marina {
-            top: 82%;
-            left: 32%;
+        .navbar-left {
+            display: flex;
+            align-items: center;
         }
         
-        #marker-burj {
-            top: 60%;
-            left: 58%;
+        .logo {
+            margin-right: 45px;
+            font-size: 24px;
+            color: white;
+        }
+        
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb-item {
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+        }
+
+        .breadcrumb-item:hover{
+            color: #4dabf7;
+        }
+        
+        .breadcrumb-separator {
+            margin: 0 8px;
+            color: white;
+        }
+        
+        .current {
+            font-weight: 600;
+        }
+        
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            flex-direction: column;
+        }
+        
+        .nav-item:hover {
+            color: #4dabf7;
+        }
+        
+        .nav-item.active {
+            color: #4dabf7;
+        }
+        
+        .nav-item i {
+            margin-right: 6px;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 99;
+        }
+        
+        /* Category marker container */
+        .marker-container {
+            display: none;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar-right {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: none;
+            }
+            
+            .mobile-menu.active {
+                display: block;
+            }
         }
     </style>
 </head>
 <body>
     <div class="map-container">
+        <!-- Default project marker -->
         <a href="index.html" class="map-marker" id="marker-dubai">
             <div class="pulse"></div>
             <div class="tooltip">Vento Tower</div>
         </a>
+        
+        <!-- Landmarks Markers (Hidden by default) -->
+        <div class="marker-container" id="landmarks-container">
+            <div class="map-marker landmark-marker" style="top: 60%; left: 58%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Burj Khalifa</div>
+            </div>
+            <div class="map-marker landmark-marker" style="top: 64%; left: 61%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Dubai Mall</div>
+            </div>
+            <div class="map-marker landmark-marker" style="top: 70%; left: 20%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Palm Jumeirah</div>
+            </div>
+            <div class="map-marker landmark-marker" style="top: 52%; left: 50%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Dubai Frame</div>
+            </div>
+        </div>
+        
+        <!-- Main Roads Markers (Hidden by default) -->
+        <div class="marker-container" id="roads-container">
+            <div class="map-marker road-marker" style="top: 55%; left: 45%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Sheikh Zayed Road</div>
+            </div>
+            <div class="map-marker road-marker" style="top: 65%; left: 40%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Al Khail Road</div>
+            </div>
+            <div class="map-marker road-marker" style="top: 48%; left: 55%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Emirates Road</div>
+            </div>
+            <div class="map-marker road-marker" style="top: 72%; left: 48%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Jumeirah Road</div>
+            </div>
+        </div>
+        
+        <!-- Retail Markers (Hidden by default) -->
+        <div class="marker-container" id="retail-container">
+            <div class="map-marker retail-marker" style="top: 63%; left: 58%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Dubai Mall</div>
+            </div>
+            <div class="map-marker retail-marker" style="top: 58%; left: 48%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Mall of Emirates</div>
+            </div>
+            <div class="map-marker retail-marker" style="top: 67%; left: 42%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Ibn Battuta Mall</div>
+            </div>
+            <div class="map-marker retail-marker" style="top: 56%; left: 62%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Dubai Festival City Mall</div>
+            </div>
+        </div>
+        
+        <!-- Education Markers (Hidden by default) -->
+        <div class="marker-container" id="education-container">
+            <div class="map-marker education-marker" style="top: 52%; left: 40%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Dubai Knowledge Village</div>
+            </div>
+            <div class="map-marker education-marker" style="top: 57%; left: 35%;">
+                <div class="pulse"></div>
+                <div class="tooltip">American University in Dubai</div>
+            </div>
+            <div class="map-marker education-marker" style="top: 62%; left: 45%;">
+                <div class="pulse"></div>
+                <div class="tooltip">GEMS Wellington</div>
+            </div>
+            <div class="map-marker education-marker" style="top: 54%; left: 53%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Dubai International Academy</div>
+            </div>
+        </div>
+        
+        <!-- Health Markers (Hidden by default) -->
+        <div class="marker-container" id="health-container">
+            <div class="map-marker health-marker" style="top: 59%; left: 51%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Rashid Hospital</div>
+            </div>
+            <div class="map-marker health-marker" style="top: 55%; left: 42%;">
+                <div class="pulse"></div>
+                <div class="tooltip">American Hospital Dubai</div>
+            </div>
+            <div class="map-marker health-marker" style="top: 65%; left: 47%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Saudi German Hospital</div>
+            </div>
+            <div class="map-marker health-marker" style="top: 50%; left: 60%;">
+                <div class="pulse"></div>
+                <div class="tooltip">Mediclinic City Hospital</div>
+            </div>
+        </div>
+        
+        <!-- Radius Marker (Hidden by default) -->
+        <div class="marker-container" id="radius-container">
+            <div class="map-marker radius-marker" style="top: 48%; left: 43%;">
+                <div class="pulse"></div>
+                <div class="tooltip">1km Radius</div>
+            </div>
+            <div class="map-marker radius-marker" style="top: 38%; left: 47%;">
+                <div class="pulse"></div>
+                <div class="tooltip">3km Radius</div>
+            </div>
+            <div class="map-marker radius-marker" style="top: 53%; left: 38%;">
+                <div class="pulse"></div>
+                <div class="tooltip">5km Radius</div>
+            </div>
+        </div>
     </div>
 
     <!-- Navigation Bar -->
@@ -151,62 +402,60 @@
             <i class="fas fa-bars"></i>
         </div>
         <div class="navbar-right">
-            <div class="justify-content-center"></div>
-                <div class="nav-item">
-                    <i class="fas fa-map-marker-alt me-1"></i>
-                    <span>Landmarks</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-road me-1"></i>
-                    <span>Main Roads</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-store me-1"></i>
-                    <span>Retail</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-graduation-cap me-1"></i>
-                    <span>Education</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-hospital me-1"></i>
-                    <span>Health</span>
-                </div>
-                <div class="nav-item">
-                    <i class="fas fa-circle me-1"></i>
-                    <span>Radius</span>
-                </div>
+            <div class="nav-item" data-category="landmarks">
+                <i class="fas fa-map-marker-alt me-1"></i>
+                <span>Landmarks</span>
             </div>
+            <div class="nav-item" data-category="roads">
+                <i class="fas fa-road me-1"></i>
+                <span>Main Roads</span>
+            </div>
+            <div class="nav-item" data-category="retail">
+                <i class="fas fa-store me-1"></i>
+                <span>Retail</span>
+            </div>
+            <div class="nav-item" data-category="education">
+                <i class="fas fa-graduation-cap me-1"></i>
+                <span>Education</span>
+            </div>
+            <div class="nav-item" data-category="health">
+                <i class="fas fa-hospital me-1"></i>
+                <span>Health</span>
+            </div>
+            <div class="nav-item" data-category="radius">
+                <i class="fas fa-circle me-1"></i>
+                <span>Radius</span>
+            </div>
+        </div>
             <div class="nav-item">
                 <i class="fab fa-whatsapp"></i>
                 <span>Share</span>
             </div>
-        </div>
     </div>
 
     <div class="mobile-menu">
         <div class="mobile-menu-item">
-            <div class="nav-item">
+            <div class="nav-item" data-category="landmarks">
                 <i class="fas fa-map-marker-alt me-1"></i>
                 <span>Landmarks</span>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" data-category="roads">
                 <i class="fas fa-road me-1"></i>
                 <span>Main Roads</span>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" data-category="retail">
                 <i class="fas fa-store me-1"></i>
                 <span>Retail</span>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" data-category="education">
                 <i class="fas fa-graduation-cap me-1"></i>
                 <span>Education</span>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" data-category="health">
                 <i class="fas fa-hospital me-1"></i>
                 <span>Health</span>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" data-category="radius">
                 <i class="fas fa-circle me-1"></i>
                 <span>Radius</span>
             </div>
@@ -222,11 +471,68 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const markers = document.querySelectorAll('.map-marker');
+            // Get all navigation items with category data
+            const navItems = document.querySelectorAll('.nav-item[data-category]');
             
-            markers.forEach(marker => {
+            // Handle navigation item clicks
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    toggleCategory(category);
+                    
+                    // Add active class to clicked item and remove from others
+                    navItems.forEach(navItem => {
+                        if (navItem.getAttribute('data-category') === category) {
+                            navItem.classList.toggle('active');
+                        } else {
+                            navItem.classList.remove('active');
+                        }
+                    });
+                });
+            });
+            
+            // Function to toggle marker display for a category
+            function toggleCategory(category) {
+                const container = document.getElementById(`${category}-container`);
+                if (container) {
+                    // Toggle display of clicked category
+                    if (container.style.display === 'block') {
+                        container.style.display = 'none';
+                    } else {
+                        // Hide all containers first
+                        const allContainers = document.querySelectorAll('.marker-container');
+                        allContainers.forEach(cont => {
+                            cont.style.display = 'none';
+                        });
+                        // Show the selected container
+                        container.style.display = 'block';
+                    }
+                }
+            }
+            
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+            
+            // Individual marker click handler
+            const allMarkers = document.querySelectorAll('.map-marker');
+            allMarkers.forEach(marker => {
                 marker.addEventListener('click', function(e) {
-                    console.log('Navigating to ' + marker.querySelector('.tooltip').textContent);
+                    if (marker.id !== 'marker-dubai') {
+                        e.preventDefault(); // Prevent default only for category markers
+                    }
+                    console.log('Marker clicked: ' + (marker.querySelector('.tooltip')?.textContent || 'Unknown'));
                 });
             });
         });
