@@ -388,14 +388,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create SVG with the building outline and floor layout
         // The viewBox is set to match the dimensions of the video/image
         overlayContainer.innerHTML = `
-            <svg id="building-overlay" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">
-                <!-- Main Building Structure - the tall black/white building in the center -->
-                <g id="building-structure">
-                    <!-- Building outline - don't show this normally -->
-                    <path d="M450,150 L550,150 L550,500 L450,500 Z" 
-                        fill="none" stroke="#ffffff" stroke-width="1" opacity="0.2"/>
-                </g>
-                
+            <svg id="building-overlay" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg">                             
                 <!-- Floor overlays will be added here -->
                 <g id="floor-overlays"></g>
                 
@@ -433,8 +426,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalFloors = 20; // Adjust based on your actual building
     const floorHeight = 16; // Height of each floor in SVG units
     const buildingBase = 400; // Y-coordinate of building base
-    const buildingWidth = 100; // Width of building in SVG units
-    const buildingLeft = 450; // Left edge of building
+    const buildingWidth = 107; // Width of building in SVG units
+    const buildingLeft = 460; // Left edge of building
 
     // Define unit types and their properties
     const unitTypes = {
@@ -573,7 +566,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                 } else {
                     // Make unavailable units more transparent
-                    floorRect.setAttribute('opacity', '0.5');
+                    floorRect.setAttribute('opacity', '0.8');
                 }
                 
                 // Add floor to overlays
@@ -584,7 +577,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 floorLabel.setAttribute('x', buildingLeft - 25);
                 floorLabel.setAttribute('y', floorY + (floorHeight / 2) + 5);
                 floorLabel.setAttribute('fill', '#ffffff');
-                floorLabel.setAttribute('stroke', '#000000');
                 floorLabel.setAttribute('stroke-width', '0.5');
                 floorLabel.setAttribute('font-size', '12');
                 floorLabel.textContent = `FL ${floorNum}`;
@@ -682,8 +674,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 floorLabel.setAttribute('x', buildingLeft - 25);
                 floorLabel.setAttribute('y', floorY + (floorHeight / 2) + 5);
                 floorLabel.setAttribute('fill', '#ffffff');
-                floorLabel.setAttribute('stroke', '#000000');
-                floorLabel.setAttribute('stroke-width', '0.5');
                 floorLabel.setAttribute('font-size', '12');
                 floorLabel.textContent = `FL ${floorNum}`;
                 floorNumbers.appendChild(floorLabel);
