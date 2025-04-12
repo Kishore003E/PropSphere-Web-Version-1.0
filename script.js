@@ -748,11 +748,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // // Initialize with default values
-    // // Wait a bit to make sure all elements are loaded
-    // setTimeout(() => {
-    //     if (unitTypeSelect && availabilitySelect) {
-    //         applyDynamicFilters();
-    //     }
-    // }, 500);
+    // Initialize with default values
+    // Wait a bit to make sure all elements are loaded
+    setTimeout(() => {
+        if (unitTypeSelect && availabilitySelect) {
+            applyDynamicFilters();
+        }
+    }, 500);
 });
