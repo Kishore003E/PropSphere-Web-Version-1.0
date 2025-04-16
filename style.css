@@ -1092,3 +1092,35 @@ html, body {
         padding: 10px;
     }
 }
+
+.floating-redirect-btn {
+    position: fixed;
+    right: 490px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 70px;
+    height: 70px;
+    background-color: #3173c8;
+    color: white;
+    border-radius: 50%; 
+    cursor: pointer;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 11px;
+}
+
+.floating-redirect-btn:hover {
+    background-color: #0051cc;
+    transform: translateY(-50%) scale(1.08);
+}
+
+.floating-redirect-btn i {
+    font-size: 20px;
+    margin-bottom: 4px; 
+}
